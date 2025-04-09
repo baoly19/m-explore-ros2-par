@@ -238,6 +238,10 @@ void Explore::visualizeFrontiers(
 
 void Explore::makePlan()
 {
+  if (stop_by_snc) {
+    // add the flag variable to control by the PAR node
+    return;
+  }
   // find frontiers
   auto pose = costmap_client_.getRobotPose();
   // get frontiers sorted according to cost
@@ -395,6 +399,7 @@ void Explore::start()
 
 void Explore::stop(bool finished_exploring)
 {
+  stop_by_snc = true;
   RCLCPP_INFO(logger_, "Exploration stopped.");
   move_base_client_->async_cancel_all_goals();
   exploring_timer_->cancel();
@@ -407,6 +412,7 @@ void Explore::stop(bool finished_exploring)
 void Explore::resume()
 {
   resuming_ = true;
+  stop_by_snc = false;
   RCLCPP_INFO(logger_, "Exploration resuming.");
   // Reactivate the timer
   exploring_timer_->reset();
