@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(explore_lite_par)
+project(explore_lite)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
